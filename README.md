@@ -38,5 +38,13 @@ OpesRX é um aplicativo **de gestão financeira pessoal** desenvolvido em **Reac
 1. **Clonar o repositório**
 
 ```bash
-git clone https://github.com/seu-usuario/opesrx.git
-cd opesrx
+$ git clone https://github.com/seu-usuario/opesrx.git
+$ cd opesrx
+```
+
+2. **Instalar as dependencias e rodar a aplicação**
+
+```bash
+$ npm install
+$ npx expo start
+```
