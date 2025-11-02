@@ -8,6 +8,7 @@ import { Ionicons } from "@expo/vector-icons";
 import HomeScreen from "../screens/HomeScreen";
 import TransactionsScreen from "../screens/TransactionsScreen";
 import AddTransactionScreen from "../screens/AddTransactionScreen";
+import MonthlyExpensesScreen from "../screens/MonthlyExpensesScreen";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -24,6 +25,8 @@ function TabNavigator() {
             iconName = "home";
           } else if (route.name == "Transactions") {
             iconName = "list";
+          } else if (route.name === "MouthlyExpenses") {
+            iconName = "bar-chart";
           } else {
             iconName = "ellipse";
           }
@@ -41,6 +44,12 @@ function TabNavigator() {
         name="Home"
         component={HomeScreen}
         options={{ title: "Resumo" }}
+      />
+
+      <Tab.Screen
+        name="MouthlyExpenses"
+        component={MonthlyExpensesScreen}
+        options={{ title: "Mensal" }}
       />
 
       <Tab.Screen
