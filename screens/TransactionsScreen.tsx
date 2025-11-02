@@ -27,7 +27,14 @@ export default function TransactionsScreen() {
         keyExtractor={(item) =>
           item.id ? item.id.toString() : Math.random().toString()
         }
-        renderItem={({ item }) => <TransactionItem transaction={item} />}
+        renderItem={({ item }) => (
+          <TransactionItem
+            transaction={item}
+            onDeleted={() => {
+              setTransactions((prev) => prev.filter((t) => t.id !== item.id));
+            }}
+          />
+        )}
         contentContainerStyle={{ paddingBottom: 100 }}
         ListEmptyComponent={
           <Text style={styles.empty}>Nenhuma transação encontrada.</Text>
