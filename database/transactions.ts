@@ -12,6 +12,15 @@ export async function addTransaction(transaction: Transaction) {
   );
 }
 
+export async function deleteTransaction(id: number) {
+  try {
+    await database.runAsync(`DELETE FROM transactions WHERE id = ?`, [id]);
+  } catch (error) {
+    console.error("Erro ao deletar transação:", error);
+    throw error;
+  }
+}
+
 export async function getAllTransactions(): Promise<Transaction[]> {
   const result = await database.getAllAsync<Transaction>(
     `SELECT * FROM transactions ORDER BY date DESC`,
