@@ -1,30 +1,52 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Alert, TouchableOpacity } from "react-native";
 import { Transaction } from "../types/Transaction";
+import { deleteTransaction } from "../database/transactions";
 
 type Props = {
   transaction: Transaction;
+  onDeleted?: () => void;
 };
 
-export default function TransactionItem({ transaction }: Props) {
+export default function TransactionItem({ transaction, onDeleted }: Props) {
   const formattedAmount = `R$ ${transaction.amount.toFixed(2)}`;
   const sign = transaction.type === "income" ? "+" : "-";
   const amountColor = transaction.type === "income" ? "green" : "red";
 
+  const handleDelete = () => {
+    Alert.alert(
+      "Excluir Transação",
+      `Tem certeza que deseja excluir "${transaction.title}"`,
+      [
+        { text: "Cancelar", style: "cancel" },
+        {
+          text: "Excluir",
+          style: "destructive",
+          onPress: async () => {
+            await deleteTransaction(transaction.id!);
+            onDeleted?.();
+          },
+        },
+      ],
+    );
+  };
+
   return (
-    <View style={styles.item}>
-      <View style={styles.left}>
-        <Text style={styles.title}>{transaction.title}</Text>
-        <Text style={styles.meta}>
-          {transaction.category} •{" "}
-          {new Date(transaction.date).toLocaleDateString()}
+    <TouchableOpacity onLongPress={handleDelete}>
+      <View style={styles.item}>
+        <View style={styles.left}>
+          <Text style={styles.title}>{transaction.title}</Text>
+          <Text style={styles.meta}>
+            {transaction.category} •{" "}
+            {new Date(transaction.date).toLocaleDateString()}
+          </Text>
+        </View>
+
+        <Text style={[styles.amount, { color: amountColor }]}>
+          {sign} {formattedAmount}
         </Text>
       </View>
-
-      <Text style={[styles.amount, { color: amountColor }]}>
-        {sign} {formattedAmount}
-      </Text>
-    </View>
+    </TouchableOpacity>
   );
 }
 
